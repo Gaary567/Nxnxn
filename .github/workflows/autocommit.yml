@@ -1,0 +1,32 @@
+name: Auto commit
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 7,8,9,10,11 * * 2025'  # Tahun yang akan datang
+    - cron: '0 7,8,9,10,11 * * 2024'  # Tahun sebelumnya
+jobs:
+  auto_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Modify LAST_UPDATED file
+        run: |
+          d=`date '+%Y-%m-%dT%H:%M:%SZ'`
+          echo $d > LAST_UPDATED
+      - name: Commit changes
+        run: |
+          git config --local user.email "Sarthaksharma@email.com" # Ganti email di sini
+          git config --local user.name "Gaary567" # Ganti username di sini
+          git add -A
+          git commit -m "Auto commit - update LAST_UPDATED"
+      - name: Push Back
+        uses: ad-m/github-push-action@v0.5.0
+        with:
+          force: true
+          directory: '.'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
