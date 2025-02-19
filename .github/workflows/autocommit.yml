@@ -4,8 +4,8 @@ on:
     branches:
       - master
   schedule:
-    - cron: '0 7,8,9,10,11 * * # Tahun yang akan datang
-      # Tahun sebelumnya
+    # Cron schedule untuk setiap hari pada jam 7-11 (waktu UTC)
+    - cron: '0 7,8,9,10,11 * * *'  
 jobs:
   auto_commit:
     runs-on: ubuntu-latest
